@@ -51,6 +51,7 @@ def test_quota_guard_blocks_before_any_network_call(ready):
 
 def test_missing_credentials_reported(ready, monkeypatch):
     p, i = ready; monkeypatch.delenv("YOUTUBE_REFRESH_TOKEN")
+    monkeypatch.setattr("ivs.publish_youtube.load_env", lambda path: None)   # a developer's local .env must not refill the token
     with pytest.raises(AuthExpired, match="missing credentials"): YouTubePublisher(p.cfg, p.db, FakeHTTP()).publish(i)
 
 def test_scheduler_tick_generates_publishes_and_survives_errors(ready, monkeypatch):

@@ -7,7 +7,8 @@ MIN_SCORE = 80
 MIN_SCORE_RECITATION = 70      # whole-Quran walk: recitation + verified translation only; no editorial takeaway by design (nothing unreviewed is added), so that part of the heuristic cannot score
 
 def min_for(content) -> int:
-    return MIN_SCORE_RECITATION if content.source.get("sequence") else MIN_SCORE
+    source = getattr(content, "source", None) or {}
+    return MIN_SCORE_RECITATION if source.get("sequence") else MIN_SCORE
 
 def score(content, render: dict, hook_score: dict | None, cta: str, verification_ok: bool) -> dict:
     tl = render.get("timeline", [])
