@@ -13,7 +13,7 @@ permissions:
 concurrency: {group: ivs-state, cancel-in-progress: false}
 jobs:
   make:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
       IVS_VIDEOS_PER_DAY: ${{ vars.IVS_VIDEOS_PER_DAY || '10' }}

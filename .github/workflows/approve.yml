@@ -15,7 +15,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (github.event.comment.user.login == github.repository_owner && !github.event.issue.pull_request &&
        (startsWith(github.event.comment.body, '/approve ') || startsWith(github.event.comment.body, '/skip ')))
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
       COMMENT: ${{ github.event.comment.body }}          # passed via env, never interpolated into a shell line
