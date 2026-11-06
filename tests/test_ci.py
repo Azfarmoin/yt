@@ -28,9 +28,13 @@ def test_workflows_are_safe():
         y = yaml.safe_load(f.read_text()); assert y.get("jobs")
         txt = f.read_text()
         assert "github.event.comment.body }}" not in txt.replace("COMMENT: ${{ github.event.comment.body }}", "")   # comment only via env
-        assert "secrets.GITHUB_TOKEN" in txt or "peter-evans" in txt or f.name == "draft-scripts.yml"
+        if f.name in ("daily.yml", "approve.yml"):                     # these two write the state branch
+            assert "secrets.GITHUB_TOKEN" in txt
     ap = (root / ".github/workflows/approve.yml").read_text()
     assert "repository_owner" in ap
+    ci = (root / ".github/workflows/ci.yml").read_text()
+    assert "contents: read" in ci and "secrets." not in ci            # CI must not need write access or secrets
+    assert "YOUTUBE_" not in ci and "git push" not in ci              # CI tests only, never publishes
 
 def test_queue_valid():
     q = yaml.safe_load((Path(__file__).resolve().parent.parent / "content" / "queue.yaml").read_text())

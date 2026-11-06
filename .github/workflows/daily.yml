@@ -40,12 +40,12 @@ jobs:
       - run: python scripts/fetch_models.py
       - name: Quran data (checksum-pinned; fails closed on mismatch)
         run: python scripts/fetch_quran_data.py
-      - run: scripts/state.sh restore
+      - run: bash scripts/state.sh restore
       - name: Tick (generate, gate, publish if allowed)
         id: run
         run: python -m ivs ci-run
         continue-on-error: true
-      - run: scripts/state.sh save
+      - run: bash scripts/state.sh save
         if: always()
       - name: Open a review issue for items waiting on you
         if: always()

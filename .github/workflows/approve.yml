@@ -45,14 +45,14 @@ jobs:
       - run: python scripts/fetch_models.py
       - name: Quran data (checksum-pinned; fails closed on mismatch)
         run: python scripts/fetch_quran_data.py
-      - run: scripts/state.sh restore
+      - run: bash scripts/state.sh restore
       - name: Parse and act
         run: |
           if [ -n "$IN_ACTION" ]; then CMD="$IN_ACTION $IN_ID"; else CMD="$(python -m ivs ci-command "$COMMENT")" || { echo "not a command"; exit 0; }; fi
           set -- $CMD
           [[ "$2" =~ ^[0-9]+$ ]] || exit 1
           python -m ivs ci-act "$1" "$2" | tee out.txt
-      - run: scripts/state.sh save
+      - run: bash scripts/state.sh save
         if: always()
       - name: Reply
         if: always() && github.event_name == 'issue_comment'

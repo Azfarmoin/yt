@@ -1,0 +1,66 @@
+# Continuous integration: proves a pull request still renders/verifies before it reaches the default branch.
+# The scheduled automation lives in daily.yml / draft-scripts.yml / approve.yml; this workflow never publishes.
+name: ci
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    name: Python tests (Linux)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: System dependencies (FFmpeg, libraqm, fonts, eSpeak NG)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg libraqm0 fonts-noto-core espeak-ng
+      - name: Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Pinned Quran data (fails closed on checksum mismatch)
+        run: python scripts/fetch_quran_data.py
+      - name: Catalog verification (text/reference checks)
+        run: python -m ivs verify-data
+      - name: Zero-cost / license audit
+        run: python -m ivs audit
+      - name: Tests
+        run: python -m pytest -q
+
+  js-fx:
+    name: JS effects (Node 22)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: js/package-lock.json
+      - name: System dependencies (FFmpeg, libraqm)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg libraqm0
+      - name: Python dependencies
+        run: pip install -r requirements.txt
+      - name: Node dependencies
+        working-directory: js
+        run: npm ci --no-audit --no-fund
+      - name: Headless Chromium (PixiJS / p5.js renderer)
+        working-directory: js
+        run: npx playwright install --with-deps chromium
+      - name: JS effect tests
+        run: python -m pytest -q tests/test_jsfx.py

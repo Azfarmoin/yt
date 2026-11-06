@@ -1,7 +1,6 @@
 .env
-data/*.sqlite3
-data/cache/
-data/youtube_token.json
+data/
+assets/models/
 client_secret*.json
 output/
 __pycache__/

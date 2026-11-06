@@ -1,9 +1,10 @@
 # Running everything on GitHub Actions (free)
 
-Three workflows in `.github/workflows/`:
+Four workflows in `.github/workflows/`:
 
 | Workflow | When | What it does |
 |---|---|---|
+| `ci.yml` | every push / pull request (+manual) | Installs FFmpeg + libraqm + fonts, verifies the pinned Quran checksums and the whole catalog, runs the audit and the test suite; a second job renders the PixiJS/p5.js effects. Never publishes. |
 | `draft-scripts.yml` | Mondays 02:00 UTC (+manual) | Takes the next unused entry of `content/queue.yaml`, verifies the Quran text (SHA-256 pinned), drafts a story with a local Ollama model on the runner (falls back to deterministic wording), validates every line, opens a **pull request**. |
 | `daily.yml` | every 2 hours (+manual); makes the slots that came due, 10/day spread 06:00-23:00 Karachi | Restores state, makes the next unique verified video (2.5D engine), runs QC, publishes **only if policy allows**, saves state, opens a review issue for anything waiting on you. |
 | `approve.yml` | Owner comments `/approve N` or `/skip N` on any issue (+manual) | Rebuilds item N if needed, approves it and uploads to YouTube. |
@@ -14,6 +15,26 @@ Three workflows in `.github/workflows/`:
 3. Optional variable `IVS_YT_PRIVACY` (`private` default, `unlisted`, `public`). Start private.
 4. *Settings > Actions > General > Workflow permissions*: read and write, and tick "Allow GitHub Actions to create pull requests".
 5. Run `daily-video` manually once from the Actions tab.
+
+### Doing the setup from a terminal (optional)
+```bash
+gh auth login
+gh secret set YOUTUBE_CLIENT_ID       # paste the value when prompted
+gh secret set YOUTUBE_CLIENT_SECRET
+gh secret set YOUTUBE_REFRESH_TOKEN
+gh variable set IVS_YT_PRIVACY --body private     # optional: private | unlisted | public
+gh variable set IVS_VIDEOS_PER_DAY --body 10      # optional (the quota guard caps it at 6 until quota is raised)
+gh workflow run ci.yml                            # first smoke test
+gh run list --limit 5
+gh run watch
+```
+The three `YOUTUBE_*` values are read only when **all three** exist; until then the workflow still makes videos and opens review issues, it just never uploads. `GITHUB_TOKEN` is provided automatically; no personal access token is needed.
+
+### If a workflow does not run
+- Scheduled workflows always execute the copy on the **default branch** (`master` here). Merge the workflows into that branch, not only `main`.
+- *Settings > Actions > General*: Actions must be enabled, workflow permissions must be **Read and write**, and **Allow GitHub Actions to create pull requests** must be ticked for `draft-scripts.yml`.
+- GitHub disables schedules after 60 days without repository activity; push a commit or run the workflow manually to wake it up.
+- A workflow started with `workflow_dispatch` runs against the branch selected in the UI — pick `master` for the daily automation.
 
 ## The human gate (hard rule, not configurable from CI)
 - Stories, hadith and AI drafts **always** wait for you. A Quran ayah item auto-publishes only if it has no review flag; today the editorial context/takeaway lines are flagged, so in practice you approve everything until a qualified person reviews those lines.
