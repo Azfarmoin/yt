@@ -1,0 +1,50 @@
+# Long-form (about 80 s). No person is depicted: the story is told with sea, night, light and weather only. Narration MUST be reviewed.
+id: yunus-dua
+title: The dua of Yunus
+theme: dua in hardship
+hook: "He called out from the deepest darkness. Did anyone hear him?"
+hook_candidates:
+  - "What does the Quran say about a dua made in complete darkness?"
+  - "Which words did Dhun-Nun call out with?"
+  - "What can we learn from this dua in Surah Al-Anbiya?"
+hook_action: ship_drift
+sources:
+  - "Quran 21:87-88 (Surah Al-Anbiya)"
+  - "Classical tafsir for the three darknesses (reviewer to verify wording)"
+lines:
+  - scene: night_sea
+    action: ship_drift
+    narration:
+      en: "Surah Al-Anbiya mentions Dhun-Nun, Yunus, peace be upon him."
+      ur: "سورۃ الانبیاء میں ذوالنون، یعنی یونس علیہ السلام کا ذکر ہے۔"
+  - scene: night_sea
+    action: none
+    narration:
+      en: "The Quran does not describe his face or form, and neither will we. We only look at the night and the sea."
+      ur: "قرآن ان کے چہرے یا شکل کا بیان نہیں کرتا، اور ہم بھی نہیں کریں گے۔ ہم صرف رات اور سمندر کو دیکھتے ہیں۔"
+  - scene: night_sea
+    action: none
+    quran: "21:87"
+    expect: "darkness"
+  - scene: sky_stars
+    action: none
+    narration:
+      en: "Many commentators mention three layers of darkness in this ayah: the night, the sea, and what surrounded him."
+      ur: "بہت سے مفسرین اس آیت میں تین اندھیروں کا ذکر کرتے ہیں: رات، سمندر، اور جو کچھ ان کے گرد تھا۔"
+  - scene: night_sea
+    action: none
+    narration:
+      en: "In that darkness, the words were simple: there is no god but You, glory be to You."
+      ur: "اس اندھیرے میں الفاظ سادہ تھے: آپ کے سوا کوئی معبود نہیں، آپ پاک ہیں۔"
+  - scene: sea_calm
+    action: ship_drift
+    quran: "21:88"
+    expect: "distress"
+  - scene: sea_calm
+    action: none
+    narration:
+      en: "The Quran says Allah answered and saved him from distress, and that this is how the believers are saved."
+      ur: "قرآن کہتا ہے کہ اللہ نے ان کی دعا قبول کی اور انہیں غم سے نجات دی، اور اسی طرح مومنوں کو نجات دی جاتی ہے۔"
+takeaway:
+  en: "He called out in the darkness, and the Quran says Allah answered him."
+  ur: "انہوں نے اندھیروں میں پکارا، اور قرآن کے مطابق اللہ نے ان کی دعا قبول فرمائی۔"

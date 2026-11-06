@@ -1,0 +1,5 @@
+# Passages to turn into story drafts. The weekly workflow drafts the next unused entry into content/stories/ as a PULL REQUEST.
+# Add `notes:` ([{text, source}]) copied from tafsir you checked: the AI may only rephrase the verified translation and these notes.
+- {id: ad-duha, ref: "93:1-11", title: "Surah Ad-Duha", theme: "hope and reassurance"}
+- {id: al-kawthar, ref: "108:1-3", title: "Surah Al-Kawthar", theme: "gratitude"}
+- {id: al-asr, ref: "103:1-3", title: "Surah Al-Asr", theme: "time and patience"}

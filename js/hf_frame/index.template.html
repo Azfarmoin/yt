@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="gsap.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+  #root { position: relative; width: 1080px; height: 1920px; }
+  svg { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="__DUR__" data-width="1080" data-height="1920">
+  <svg id="frame" class="clip" data-start="0" data-duration="__DUR__" data-track-index="0" viewBox="0 0 1080 1920" fill="none" stroke="__COLOR__" stroke-linecap="round">
+    <g id="border" stroke-width="3" opacity="0.8">
+      <rect x="34" y="34" width="1012" height="1852" rx="10" pathLength="1" stroke-dasharray="1" />
+      <rect x="52" y="52" width="976" height="1816" rx="6" pathLength="1" stroke-dasharray="1" stroke-width="1.5" opacity="0.6" />
+    </g>
+    <g id="corners" stroke-width="3.5">
+      <g transform="translate(34 34)"><path d="M0 120 L0 0 L120 0 M24 24 L24 80 M24 24 L80 24 M0 0 L56 56" pathLength="1" stroke-dasharray="1"/></g>
+      <g transform="translate(1046 34) scale(-1 1)"><path d="M0 120 L0 0 L120 0 M24 24 L24 80 M24 24 L80 24 M0 0 L56 56" pathLength="1" stroke-dasharray="1"/></g>
+      <g transform="translate(34 1886) scale(1 -1)"><path d="M0 120 L0 0 L120 0 M24 24 L24 80 M24 24 L80 24 M0 0 L56 56" pathLength="1" stroke-dasharray="1"/></g>
+      <g transform="translate(1046 1886) scale(-1 -1)"><path d="M0 120 L0 0 L120 0 M24 24 L24 80 M24 24 L80 24 M0 0 L56 56" pathLength="1" stroke-dasharray="1"/></g>
+    </g>
+    <g id="stars" stroke-width="2.5"></g>
+  </svg>
+</div>
+<script>
+  window.__timelines = window.__timelines || {};
+  const D = __DUR__, tl = gsap.timeline({ paused: true });
+  // 8-point star ornaments at the mid-edges, "breathing" over exactly D seconds so the loop is seamless.
+  const NS = "http://www.w3.org/2000/svg", stars = document.getElementById("stars");
+  const spots = [[540, 34], [540, 1886], [34, 960], [1046, 960]];
+  spots.forEach(([x, y], i) => {
+    const g = document.createElementNS(NS, "g"); g.setAttribute("transform", `translate(${x} ${y})`);
+    const p = document.createElementNS(NS, "polygon"); let pts = [];
+    for (let k = 0; k < 16; k++) { const a = k * Math.PI / 8, r = k % 2 ? 11 : 26; pts.push((Math.cos(a) * r).toFixed(2) + "," + (Math.sin(a) * r).toFixed(2)); }
+    p.setAttribute("points", pts.join(" ")); p.setAttribute("fill", "__COLOR__"); p.setAttribute("fill-opacity", "0.25"); g.appendChild(p); stars.appendChild(g);
+    tl.to(g, { rotation: 45, svgOrigin: x + " " + y, duration: D, ease: "none" }, 0);
+  });
+  tl.to("#border", { opacity: 0.45, duration: D / 2, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0);
+  tl.to("#corners", { opacity: 0.55, duration: D / 2, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0);
+  window.__timelines["main"] = tl; tl.seek(0);
+</script>
+</body>
+</html>

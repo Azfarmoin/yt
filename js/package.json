@@ -1,0 +1,15 @@
+{
+  "name": "ivs-js-fx",
+  "private": true,
+  "type": "module",
+  "description": "Free, open-source JS effects for the Islamic video engine: PixiJS overlays, p5.js generative patterns, GL Transitions, HyperFrames cards. Rendered headless, deterministic, no network at render time.",
+  "engines": {"node": ">=22"},
+  "dependencies": {
+    "gl-transitions": "3.0.0",
+    "gsap": "3.15.0",
+    "hyperframes": "0.9.19",
+    "p5": "1.11.11",
+    "pixi.js": "8.22.0",
+    "playwright": "1.65.0"
+  }
+}
