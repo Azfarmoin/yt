@@ -1,0 +1,25 @@
+{
+  "mirror": "https://github.com/fawazahmed0/quran-api",
+  "editions": {
+    "ara-quranuthmanihaf": {
+      "description": "Quran Uthmani Hafs v13, King Fahd Quran Complex",
+      "origin": "https://qurancomplex.gov.sa/",
+      "sha256": "1102ef9e0bab89a28c90b513b5281687948dddc905dcef2e1af9206bb151b91f"
+    },
+    "ara-quransimple": {
+      "description": "Quran Simple (Tanzil)",
+      "origin": "https://tanzil.net/",
+      "sha256": "e430798cdda553f703b54f5601835bbbd8e9a81dce3db42c7e6f09314a4ec3cb"
+    },
+    "urd-fatehmuhammadja": {
+      "description": "Urdu: Fateh Muhammad Jalandhry (Tanzil)",
+      "origin": "https://tanzil.net/",
+      "sha256": "48ba38d004f990c27cb15743b87ebdaa775ebd2f1bf5d70ada89d825b4b739e9"
+    },
+    "eng-abdullahyusufal": {
+      "description": "English: Abdullah Yusuf Ali (Tanzil)",
+      "origin": "https://tanzil.net/",
+      "sha256": "cf37ea594c999d6f00e10c295f72994a4b672f03fc6aa6cabf60eb2ce6d47af0"
+    }
+  }
+}
