@@ -1,0 +1,73 @@
+# Daily: make the next verified video (2.5D engine) and publish it ONLY if policy allows (verified Quran ayah, no review flags).
+# Stories / hadith / AI drafts always wait for you: the job opens an issue; comment `/approve <id>` or `/skip <id>`.
+# Free: public repo = unlimited Actions minutes; private = 2000 min/month. 03:00 UTC = 08:00 Asia/Karachi.
+name: daily-video
+on:
+  schedule: [{cron: "5 */2 * * *"}]      # every 2 h; each run makes the slots that have come due (10/day spread 06:00-23:00 Karachi)
+  workflow_dispatch:
+    inputs:
+      privacy: {description: "YouTube privacy", default: private, type: choice, options: [private, unlisted, public]}
+permissions:
+  contents: write      # state branch
+  issues: write        # review issue
+concurrency: {group: ivs-state, cancel-in-progress: false}
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      IVS_VIDEOS_PER_DAY: ${{ vars.IVS_VIDEOS_PER_DAY || '10' }}
+      IVS_YT_QUOTA: ${{ vars.IVS_YT_QUOTA || '10000' }}
+      IVS_YT_PRIVACY: ${{ inputs.privacy || vars.IVS_YT_PRIVACY || 'private' }}
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg libraqm0 fonts-noto-core espeak-ng
+      - uses: actions/setup-node@v4
+        with: {node-version: "22"}
+      - run: pip install -r requirements.txt
+      - name: JS effects (PixiJS, p5.js, GL Transitions, HyperFrames)
+        run: |
+          cd js && npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+          npx hyperframes telemetry disable || true
+        continue-on-error: true       # without it the engine renders exactly as before
+      - run: python scripts/fetch_models.py
+      - name: Quran data (checksum-pinned; fails closed on mismatch)
+        run: python scripts/fetch_quran_data.py
+      - run: scripts/state.sh restore
+      - name: Tick (generate, gate, publish if allowed)
+        id: run
+        run: python -m ivs ci-run
+        continue-on-error: true
+      - run: scripts/state.sh save
+        if: always()
+      - name: Open a review issue for items waiting on you
+        if: always()
+        env: {GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+        run: |
+          [ -f output/ci_report.json ] || exit 0
+          python3 - <<'PY' > body.md
+          import json
+          r = json.load(open("output/ci_report.json"))
+          for i in r["needs_review"]:
+              print(f"### item {i['id']}: {i['title']}\nstatus `{i['status']}` · religious check `{i['religious_verification']}` · {i['review_reason']}\n")
+          print("Download the video from this run's artifacts, check script, sources and recitation, then comment exactly `/approve <id>` or `/skip <id>`.")
+          PY
+          n=$(python3 -c "import json;print(len(json.load(open('output/ci_report.json'))['needs_review']))")
+          [ "$n" -gt 0 ] && gh issue create --title "Review needed: $(date -u +%F)" --body-file body.md || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: videos
+          path: |
+            output/**/video.mp4
+            output/ci_report.json
+          retention-days: 14
+      - if: steps.run.outcome == 'failure'
+        run: exit 1

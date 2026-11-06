@@ -1,0 +1,39 @@
+# Geometric/contemplative direction (no landscape, no people). Narration is the author's words and MUST be reviewed against tafsir.
+id: iqra
+title: Surah Al-Alaq, the opening ayat
+theme: knowledge and reading
+hook: "The first word was a command to read. What does that tell us?"
+hook_candidates:
+  - "What does the Quran say about reading and the pen?"
+  - "Which ayat of Surah Al-Alaq speak about knowledge?"
+  - "Why does Surah Al-Alaq begin with the word read?"
+sources:
+  - "Quran 96:1-5 (Surah Al-Alaq)"
+  - "Classical tafsir for the context of these ayat (reviewer to verify wording)"
+lines:
+  - scene: geometric_night
+    action: none
+    narration:
+      en: "These are the opening ayat of Surah Al-Alaq, which many scholars report as the beginning of the revelation."
+      ur: "یہ سورۃ العلق کی ابتدائی آیات ہیں، جنہیں بہت سے علماء وحی کا آغاز بتاتے ہیں۔"
+  - scene: geometric_night
+    action: none
+    quran: "96:1-2"
+    expect: "created"
+  - scene: geometric_dawn
+    action: none
+    narration:
+      en: "Notice what comes first: not a rule, but a call to read, and to remember who created."
+      ur: "غور کیجیے کہ سب سے پہلے کیا آیا: کوئی حکم نہیں، بلکہ پڑھنے اور یہ یاد رکھنے کی دعوت کہ کس نے پیدا کیا۔"
+  - scene: geometric_dawn
+    action: none
+    quran: "96:3-5"
+    expect: "pen"
+  - scene: geometric_night
+    action: none
+    narration:
+      en: "The ayat speak of the pen and of teaching man what he did not know."
+      ur: "ان آیات میں قلم کا ذکر ہے اور اس کا کہ انسان کو وہ سکھایا گیا جو وہ نہیں جانتا تھا۔"
+takeaway:
+  en: "The surah begins with reading, the pen, and knowledge that is taught."
+  ur: "سورت کا آغاز پڑھنے، قلم اور سکھائے گئے علم سے ہوتا ہے۔"

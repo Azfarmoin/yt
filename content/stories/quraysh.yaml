@@ -1,0 +1,50 @@
+# Long-form (about 80 s). Narration is the author's words and MUST be reviewed against tafsir before publishing.
+id: quraysh
+title: Surah Quraysh
+theme: blessings and gratitude
+hook: "They travelled in winter and summer. What does Allah ask of them?"
+hook_candidates:
+  - "What does Surah Quraysh remind us about our blessings?"
+  - "Why does the surah mention winter and summer journeys?"
+  - "Which blessings does Surah Quraysh point to?"
+hook_action: caravan
+sources:
+  - "Quran 106:1-4 (Surah Quraysh)"
+  - "Classical tafsir for background on the trade journeys (reviewer to verify wording)"
+lines:
+  - scene: mountain_dawn
+    action: caravan
+    narration:
+      en: "Surah Quraysh is about a people known for their journeys."
+      ur: "سورۃ قریش ایسی قوم کا ذکر کرتی ہے جو اپنے سفر کے لیے مشہور تھی۔"
+  - scene: desert_dawn
+    action: caravan
+    narration:
+      en: "Commentaries explain that Quraysh travelled in caravans, to the south in winter and to the north in summer."
+      ur: "تفاسیر کے مطابق قریش قافلوں میں سفر کرتے تھے، سردیوں میں جنوب کی طرف اور گرمیوں میں شمال کی طرف۔"
+  - scene: desert_dawn
+    action: caravan
+    quran: "106:1-2"
+    expect: "winter"
+  - scene: mountain_dawn
+    action: none
+    narration:
+      en: "Every journey needed food, safety and trust. None of it was guaranteed by the travellers alone."
+      ur: "ہر سفر کے لیے خوراک، حفاظت اور اعتماد ضروری تھا۔ یہ سب کچھ صرف مسافروں کے بس میں نہ تھا۔"
+  - scene: desert_night
+    action: caravan
+    narration:
+      en: "So the surah turns their attention to one thing: worship the Lord of this House."
+      ur: "اس لیے سورت ان کی توجہ ایک بات کی طرف دلاتی ہے: اس گھر کے رب کی عبادت کرو۔"
+  - scene: desert_night
+    action: caravan
+    quran: "106:3-4"
+    expect: "hunger"
+  - scene: sky_stars
+    action: none
+    narration:
+      en: "Fed after hunger, secured after fear. These are blessings we also live with every day."
+      ur: "بھوک کے بعد کھلایا، خوف کے بعد امن دیا۔ یہ نعمتیں ہم بھی ہر روز پاتے ہیں۔"
+takeaway:
+  en: "The surah ends by naming Allah, who fed them and gave them security."
+  ur: "سورت اس ذات کا ذکر کرتی ہے جس نے انہیں کھلایا اور امن دیا۔"

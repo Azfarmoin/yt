@@ -1,0 +1,62 @@
+# Chat-ops: the repo OWNER comments `/approve 12` or `/skip 12` on any issue. Nothing else triggers an upload.
+name: approve
+on:
+  issue_comment: {types: [created]}
+  workflow_dispatch:
+    inputs:
+      action: {type: choice, options: [approve, skip], required: true}
+      id: {description: "item id", required: true}
+permissions: {contents: write, issues: write}
+concurrency: {group: ivs-state, cancel-in-progress: false}
+jobs:
+  act:
+    # only the repository owner, only on issues, only comments that start with a slash command
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.comment.user.login == github.repository_owner && !github.event.issue.pull_request &&
+       (startsWith(github.event.comment.body, '/approve ') || startsWith(github.event.comment.body, '/skip ')))
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      COMMENT: ${{ github.event.comment.body }}          # passed via env, never interpolated into a shell line
+      IN_ACTION: ${{ inputs.action }}
+      IN_ID: ${{ inputs.id }}
+      IVS_YT_QUOTA: ${{ vars.IVS_YT_QUOTA || '10000' }}
+      IVS_YT_PRIVACY: ${{ vars.IVS_YT_PRIVACY || 'private' }}
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg libraqm0 fonts-noto-core espeak-ng
+      - uses: actions/setup-node@v4
+        with: {node-version: "22"}
+      - run: pip install -r requirements.txt
+      - name: JS effects (PixiJS, p5.js, GL Transitions, HyperFrames)
+        run: |
+          cd js && npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+          npx hyperframes telemetry disable || true
+        continue-on-error: true       # without it the engine renders exactly as before
+      - run: python scripts/fetch_models.py
+      - name: Quran data (checksum-pinned; fails closed on mismatch)
+        run: python scripts/fetch_quran_data.py
+      - run: scripts/state.sh restore
+      - name: Parse and act
+        run: |
+          if [ -n "$IN_ACTION" ]; then CMD="$IN_ACTION $IN_ID"; else CMD="$(python -m ivs ci-command "$COMMENT")" || { echo "not a command"; exit 0; }; fi
+          set -- $CMD
+          [[ "$2" =~ ^[0-9]+$ ]] || exit 1
+          python -m ivs ci-act "$1" "$2" | tee out.txt
+      - run: scripts/state.sh save
+        if: always()
+      - name: Reply
+        if: always() && github.event_name == 'issue_comment'
+        env: {ISSUE: "${{ github.event.issue.number }}"}
+        run: |
+          MSG="$(tail -n 3 out.txt 2>/dev/null || true)"
+          gh issue comment "$ISSUE" --body "${MSG:-failed, see the run log}"

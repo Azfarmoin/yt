@@ -1,0 +1,10 @@
+Pillow>=10.0
+PyYAML>=6.0
+requests>=2.31
+Flask>=3.0      # optional: only for the dashboard
+pytest>=8.0     # optional: only for tests
+tzdata>=2024.1   # needed for time zones on Windows
+kokoro-onnx>=0.4        # free English narration (model files in assets/models, Apache-2.0)
+espeakng-loader>=0.2    # bundled eSpeak NG (Urdu voice), GPL-3
+soundfile>=0.12
+edge-tts>=6.1      # optional: human-like narration voices (opt-in, online)

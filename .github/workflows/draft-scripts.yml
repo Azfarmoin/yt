@@ -1,0 +1,35 @@
+# Weekly: draft the next story from content/queue.yaml and open a PULL REQUEST. Merging it is NOT enough:
+# the draft carries `draft.needs_human_review: true` and is ignored until you edit that flag out (that edit is your review).
+name: draft-scripts
+on:
+  schedule: [{cron: "0 2 * * 1"}]
+  workflow_dispatch:
+    inputs: {n: {description: "how many to draft", default: "1"}}
+permissions: {contents: write, pull-requests: write}
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: pip install -r requirements.txt
+      - name: Quran data (checksum-pinned; fails closed on mismatch)
+        run: python scripts/fetch_quran_data.py
+      - name: Local LLM (Ollama, free, on the runner)
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          (ollama serve >/dev/null 2>&1 &) ; sleep 6
+          ollama pull qwen2.5:3b
+        continue-on-error: true       # no LLM => deterministic fallback (rephrases only verified translation)
+      - run: python -m ivs draft-queue --n "${{ inputs.n || '1' }}"
+      - uses: peter-evans/create-pull-request@v6
+        with:
+          branch: ivs/draft-story
+          title: "Draft story for review"
+          commit-message: "Draft story (needs human review)"
+          body: |
+            Auto-drafted from content/queue.yaml. Every line is validated against the verified Quran translation + the notes you supplied.
+            **Review checklist:** facts vs source, no invented details, nothing depicting Allah/Prophets, then delete `draft.needs_human_review` in the YAML and merge.
+          add-paths: content/stories/*.yaml

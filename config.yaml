@@ -1,0 +1,70 @@
+# Islamic Video Engine - sample configuration (all values have safe defaults)
+zero_cost_mode: true            # never changes; any paid-provider setting is refused at startup
+timezone: Asia/Karachi
+paths:
+  db: data/ivs.sqlite3
+  output: output
+  cache: data/cache
+schedule:
+  videos_per_day: 1
+  times: ["18:00"]              # local time in `timezone`
+  categories: [quran_ayah, hadith, story]   # rotation pool (story = human-authored files in content/stories)
+publishing:
+  mode: approval                # approval | auto | draft
+  platforms:
+    youtube: {enabled: false, privacy: private, category_id: "27"}   # 27 = Education
+video:
+  width: 1080
+  height: 1920
+  fps: 24
+  target_seconds: [20, 120]
+  subtitle_mode: ar_ur_en_alternating   # ar_ur | ar_en | ar_ur_en_alternating | ar_ur_en_stacked
+  story_subtitle_mode: ar_ur_en_stacked   # stories: Arabic + Urdu + English on one screen when legible
+  watermark: ""                 # e.g. "@yourchannel"
+  vfx:                          # all generated locally, no stock footage
+    enabled: true
+    kenburns: true              # slow zoom/drift on the background
+    particles: true             # drifting gold dust (screen blended)
+    text_reveal: true           # fade + ease-up of text
+script:
+  enabled: true                 # context line before the verse, takeaway after
+  require_review: true          # editorial lines are NOT scholar-reviewed; items wait in needs_review until approved
+audio:
+  recitation:
+    enabled: true
+    provider: everyayah         # downloaded on YOUR machine; see docs/LICENSES.md
+    permission_verified: false  # MUST be set true by you after checking the recording's reuse/monetization terms; until then videos are text-only
+    permission_note: ""         # e.g. "EveryAyah terms checked 2026-11-01: <what you verified>"
+    reciter_display: "Mishary Alafasy"   # shown on screen; check that it matches the chosen reciter folder
+    style: ""                   # "Murattal" / "Mujawwad" only if you have verified it for this recording; blank = not shown
+    reciter: Alafasy_128kbps
+    base_url: https://everyayah.com/data
+  narration:                    # stories only; never used for Quran text. 100% free + local
+    enabled: true
+    story_languages: [en]       # en = Kokoro (natural); add ur for eSpeak NG Urdu (robotic) -> [en, ur]
+    allow_edge: false           # OPT-IN: human-like Microsoft neural voices via edge-tts (online, unofficial, free). pip install edge-tts. Never used for Quran.
+    edge_voices: {en: en-GB-RyanNeural, ur: ur-PK-AsadNeural}
+    edge_rate: "-5%"
+  background_music: false       # never during recitation
+dedupe:
+  similarity_threshold: 0.82    # char-ngram cosine on normalized text
+quran:
+  arabic_edition: ara-quranuthmanihaf
+  crosscheck_edition: ara-quransimple
+  urdu_edition: urd-fatehmuhammadja
+  english_edition: eng-abdullahyusufal
+
+js_fx:                          # PixiJS overlay, HyperFrames frame, GL Transitions, p5.js geometric backgrounds (needs Node>=22 + `npm ci` in js/)
+  enabled: auto                 # auto = use if available, false = off
+  transitions: true
+  transition_seconds: 0.6
+  pixi: true
+  frame: true                   # HyperFrames animated geometric border (Quran/hadith videos)
+  p5: true
+three_d:              # Blender 3D shots (slow, CPU). Only used when pre-rendered: `python -m ivs film <story>`
+  enabled: true
+  tier: auto            # auto = by hardware (LOW/MEDIUM/HIGH) | draft 360x640@8fps | hd 540x960@12 | full 1080x1920@24
+  max_seconds: auto     # 3D budget per video; the rest of the film uses the 2.5D engine
+  engine: CYCLES
+hardware:
+  auto: true            # python -m ivs hardware

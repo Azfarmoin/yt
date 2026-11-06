@@ -1,0 +1,56 @@
+# Long-form (about 90 s). Verse lines come from the verified Quran data; narration is the author's words and MUST be reviewed against tafsir
+# before publishing. Animation: faceless generic figures only; prophets, Companions and sacred figures are never drawn.
+id: al-fil
+title: Surah Al-Fil
+theme: lessons from the Quran
+hook: "An army came with elephants. What did Allah do?"
+hook_candidates:
+  - "What happened to the army that came with elephants?"
+  - "Which lesson does Surah Al-Fil leave us with?"
+  - "Have you reflected on the story of the elephant army?"
+hook_action: army_march
+sources:
+  - "Quran 105:1-5 (Surah Al-Fil)"
+  - "Classical tafsir, e.g. Ibn Kathir, for the background reports (reviewer to verify wording)"
+lines:
+  - scene: desert_dawn
+    action: army_march
+    narration:
+      en: "Surah Al-Fil is only five short ayat, but it carries a lesson that people still remember."
+      ur: "سورۃ الفیل صرف پانچ مختصر آیات پر مشتمل ہے، مگر اس میں ایسا سبق ہے جو آج بھی یاد کیا جاتا ہے۔"
+  - scene: desert_dawn
+    action: army_march
+    narration:
+      en: "Classical commentaries report that an army from Yemen, with elephants, marched towards the Kaaba in Makkah."
+      ur: "تفاسیر میں آتا ہے کہ یمن سے ایک لشکر ہاتھیوں کے ساتھ مکہ مکرمہ میں کعبہ کی طرف روانہ ہوا۔"
+  - scene: desert_dawn
+    action: army_march
+    quran: "105:1-2"
+    expect: "elephant"
+  - scene: mountain_dawn
+    action: crowd_gather
+    narration:
+      en: "The reports say the people of Makkah could not face such an army, and they withdrew to the hills."
+      ur: "روایات میں ہے کہ اہلِ مکہ اتنے بڑے لشکر کا سامنا نہ کر سکتے تھے، اس لیے وہ پہاڑوں کی طرف چلے گئے۔"
+  - scene: desert_night
+    action: flock
+    narration:
+      en: "Then the Quran describes what came next: not another army, but birds."
+      ur: "پھر قرآن بتاتا ہے کہ آگے کیا ہوا: کوئی اور لشکر نہیں، بلکہ پرندے۔"
+  - scene: desert_night
+    action: flock
+    quran: "105:3-5"
+    expect: "birds"
+  - scene: sky_stars
+    action: none
+    narration:
+      en: "Notice how the surah begins: with a question. Have you not seen? It invites us to reflect."
+      ur: "غور کیجیے کہ سورت کا آغاز ایک سوال سے ہوتا ہے: کیا تم نے نہیں دیکھا؟ یہ ہمیں غور کی دعوت دیتا ہے۔"
+  - scene: desert_dawn
+    action: none
+    narration:
+      en: "Power and numbers are not what decide the outcome. The surah points back to Allah."
+      ur: "طاقت اور تعداد نتیجہ طے نہیں کرتیں۔ سورت ہمیں اللہ کی طرف متوجہ کرتی ہے۔"
+takeaway:
+  en: "The surah says their plan was made to go astray. Reflect, and remember who protects."
+  ur: "سورت کے مطابق ان کی چال ناکام کر دی گئی۔ غور کیجیے، اور یاد رکھیے کہ حفاظت کون کرتا ہے۔"

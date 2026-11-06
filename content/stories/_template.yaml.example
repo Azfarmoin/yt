@@ -1,0 +1,27 @@
+# Copy to content/stories/<id>.yaml (no leading underscore). Stories are HUMAN-AUTHORED: the engine never invents story content.
+# Every story is forced to `needs_review`; a person must check each claim against the cited sources before approving.
+id: example-id
+title: Short title
+theme: patience
+hook: One-sentence hook (first 3 seconds)
+sources:
+  - "Name of book/collection, volume/page or hadith number"
+lines:
+  - label: "Context"
+    ur: "اردو متن"
+    en: "English text"
+    ar: ""            # optional; only genuine, verified Arabic quotations
+
+# --- animated-story format (preferred) ---------------------------------------------------------------------------------
+# id: my-story
+# title: Title shown in the YouTube title
+# theme: short theme
+# hook: "One sentence that makes people stay."
+# sources: ["Quran 105:1-5 (Surah Al-Fil)"]
+# lines:
+#   - scene: desert_dawn                # desert_night | desert_dawn | sea_calm | sea_storm | night_sea | mountain_dawn | sky_stars
+#     narration: {en: "Your words.", ur: "آپ کے الفاظ"}
+#   - scene: desert_night
+#     quran: "105:3-5"                  # pulled from the verified Quran source
+#     expect: "birds"                   # keyword that must appear in the English translation (catches wrong references)
+# takeaway: {en: "One literal takeaway.", ur: "ایک سطر"}
