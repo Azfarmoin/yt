@@ -101,7 +101,7 @@ Modules: `director.py` (treatment), `styles.py` (112 parametric styles), `metaph
 
 
 ## Fully automated on GitHub Actions
-See `docs/GITHUB_ACTIONS.md`: weekly script drafting (PR), daily render + gated YouTube publish, `/approve N` chat-ops. All free.
+See `docs/GITHUB_ACTIONS.md`: CI tests on every push/PR, weekly script drafting (PR), daily render + gated YouTube publish, `/approve N` chat-ops. All free.
 
 ## JS effects and Lemo-Opuscar
 See `docs/JS_EFFECTS.md` and `docs/LEMO_OPUSCAR.md`.
