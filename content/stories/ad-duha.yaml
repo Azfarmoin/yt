@@ -1,0 +1,88 @@
+# DRAFT written by the script assistant. REVIEW every line against its source, then move to content/stories/.
+id: ad-duha
+title: Surah Ad-Duha
+theme: hope and reassurance
+hook: What does the Glorious Morning Light represent?
+hook_candidates:
+- What does the Glorious Morning Light represent?
+- What does the Glorious Morning Light represent?
+sources:
+- Quran 93:1-11 (Ad-Duha)
+lines:
+- scene: desert_dawn
+  action: none
+  narration:
+    en: This surah begins with the mention of the Glorious Morning Light, a symbol of hope and guidance.
+    ur: ایشان با آنچه کہا جانے والی نور روزگار شروع کرتے ہیں، یک علایق و عزت کی تمدنی تجربہ ہے۔
+- scene: desert_dawn
+  action: none
+  quran: '93:1'
+  expect: glorious
+- scene: night_sea
+  action: none
+  quran: '93:2'
+  expect: night
+- scene: desert_dawn
+  action: none
+  narration:
+    en: The verse continues by reminding the listener that their Guardian-Lord has not forsaken them and
+      is not displeased with them.
+    ur: ایشان نے ناگم نیاکہ کہا جاتا ہے، اس وقت کو ناگم نیاکہ کہا جاتا ہے، اس وقت کو ناگم نیاکہ کہا جاتا
+      ہے، اس وقت کو ناگم نیاکہ کہا جاتا ہے، اس وقت کو ناگم نیاکہ کہا جاتا ہے۔
+- scene: desert_dawn
+  action: none
+  quran: '93:3'
+  expect: displeased
+- scene: desert_dawn
+  action: none
+  narration:
+    en: It also promises that the Hereafter will be better for them than the present life.
+    ur: ایشان نے ناگم نیاکہ کہا جاتا ہے، اس وقت کو ناگم نیاکہ کہا جاتا ہے، اس وقت کو ناگم نیاکہ کہا جاتا
+      ہے، اس وقت کو ناگم نیاکہ کہا جاتا ہے۔
+- scene: desert_dawn
+  action: none
+  quran: '93:4'
+  expect: hereafter
+- scene: desert_dawn
+  action: none
+  quran: '93:5'
+  expect: wherewith
+- scene: desert_dawn
+  action: none
+  narration:
+    en: Finally, it reminds the listener of the kindness of their Guardian-Lord in providing shelter,
+      guidance, and independence.
+    ur: ایشان نے ناگم نیاکہ کہا جاتا ہے، اس وقت کو ناگم نیاکہ کہا جاتا ہے، اس وقت کو ناگم نیاکہ کہا جاتا
+      ہے، اس وقت کو ناگم نیاکہ کہا جاتا ہے۔
+- scene: desert_dawn
+  action: none
+  quran: '93:6'
+  expect: shelter
+- scene: desert_dawn
+  action: none
+  quran: '93:7'
+  expect: wandering
+- scene: desert_dawn
+  action: none
+  quran: '93:8'
+  expect: independent
+- scene: desert_dawn
+  action: none
+  quran: '93:9'
+  expect: therefore
+- scene: desert_dawn
+  action: none
+  quran: '93:10'
+  expect: petitioner
+- scene: desert_dawn
+  action: none
+  quran: '93:11'
+  expect: rehearse
+takeaway:
+  en: This surah emphasizes the importance of treating orphans kindly, not repelling the petitioner, and
+    remembering the kindness of their Guardian-Lord.
+  ur: ایشان نے ناگم نیاکہ کہا جاتا ہے، اس وقت کو ناگم نیاکہ کہا جاتا ہے، اس وقت کو ناگم نیاکہ کہا جاتا
+    ہے، اس وقت کو ناگم نیاکہ کہا جاتا ہے۔
+draft:
+  generated_by: llm
+  needs_human_review: true
